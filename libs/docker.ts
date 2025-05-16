@@ -5,12 +5,14 @@ const docker = new Docker();
 
 export async function createPostgresContainer() {
   return await docker.createContainer({
-    Image: "postgres:latest",
-    Env: ["POSTGRES_PASSWORD=mysecretpassword"],
+    Image: "postgres:17-alpine",
+    Env: ["POSTGRES_PASSWORD=password"], // Corrected environment variable name
     HostConfig: {
-      PortBindings: { "5432/tcp": [{ HostPort: "5432" }] },
+      PortBindings: {
+        "5432/tcp": [{ HostPort: "5432" }],
+      },
     },
-    name: "pg-restore-container",
+    name: "postgres-container", // Change name to avoid conflict
   });
 }
 

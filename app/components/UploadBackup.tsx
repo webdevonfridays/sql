@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function UploadBackup() {
+  const rout = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -16,8 +18,9 @@ export default function UploadBackup() {
         method: "POST",
         body: formData,
       });
-      const data = await response.json();
-      setMessage(data.success ? "Backup restored successfully!" : data.error);
+      if (response.ok) {
+        rout.push("/db-interface");
+      }
     } catch (error) {
       setMessage("Error uploading file");
     } finally {

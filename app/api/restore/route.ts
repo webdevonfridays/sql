@@ -38,8 +38,8 @@ export async function POST(request: Request) {
 
     // Copy to container and restore
     await copyToContainer(container.id, filePath, "/tmp/backup.sql");
-    await restoreBackup("/tmp/backup.sql");
-
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    const res = await restoreBackup(container, "/tmp/backup.sql");
     // Clean up
     fs.unlinkSync(filePath);
 
